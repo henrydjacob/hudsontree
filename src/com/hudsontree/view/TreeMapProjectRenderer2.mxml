@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<treemap:TreeMapLeafRenderer xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:flash="flash.text.*"
+	xmlns:treemap="com.flextoolbox.controls.treeMapClasses.*">
+	
+	<mx:Script>
+	 <![CDATA[				
+		import com.flextoolbox.controls.treeMapClasses.*;
+
+	]]>
+	</mx:Script>
+
+        <mx:HorizontalList id="CameraSelection" height="170" color="0x323232" columnWidth="126" columnCount="3" top="0" left="0">
+            <mx:dataProvider>
+                <mx:Array>
+                    <mx:Object label="Backpack" icon="@Embed('/assets/icon-arrow-down-red.png')"/>
+                    <mx:Object label="Compass" icon="@Embed('/assets/icon-arrow-down-red.png')"/>
+                    <mx:Object label="Goggles" icon="@Embed('/assets/icon-arrow-down-red.png')"/>
+                </mx:Array>
+            </mx:dataProvider>
+        </mx:HorizontalList>
+	
+</treemap:TreeMapLeafRenderer>

@@ -1,0 +1,12 @@
+﻿WindowedApplication {
+	paddingTop:0;
+	paddingBottom:0;
+	paddingLeft:0;
+	paddingRight:0;
+	vertical-gap:0;
+	theme-color: #006699;
+	color: #333333;
+	closeButtonSkin:Embed("assets/icon_close.png");
+	maximizeButtonSkin:	Embed("assets/icon_maximize.png");
+	minimizeButtonSkin:	Embed("assets/icon_minimize.png");
+}

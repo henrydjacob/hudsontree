@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:toolbox="http://www.flextoolbox.com/2006/mxml"
+	xmlns:view="com.hudsontree.view.*"
+	width="100%" height="100%" creationComplete="init()">
+
+	<mx:Script><![CDATA[
+		import com.hudsontree.models.Configuration;
+		import flash.net.navigateToURL;
+
+		import com.hudsontree.models.Project;
+		import org.restfulx.Rx;
+		import com.hudsontree.controllers.ProcessController;
+		
+		import mx.controls.Alert;
+		
+		import mx.binding.utils.*;
+		
+		private var models:ProcessController;
+		private var configuration:Configuration;
+		
+		public function init():void {
+			configuration = ProcessController.instance.configuration;
+			treeMap.setStyle("color", configuration.textFontColor);
+			BindingUtils.bindSetter(updateConfiguration, configuration, "textFontSize");
+		}
+		
+		private function updateConfiguration(value:Object):void {
+			treeMap.setStyle("fontSize", configuration.textFontSize);
+		}
+		
+		private function productColor(project:Project):uint
+		{
+			configuration = ProcessController.instance.configuration;
+			if (project.lastBuild != null) { 
+				if( project.lastBuild.result == "SUCCESS") {
+					return configuration.successColor;
+				} else if ( project.lastBuild.result == "FAILURE") {
+					return configuration.failureColor;
+				} else if ( project.lastBuild.result == "STABLE") {
+					return configuration.stableColor;
+				} else {
+					//disabled
+					return configuration.disableColor;
+				}
+			} else {
+				return configuration.disableColor;
+			}
+		}
+		
+		/**
+		 * @private
+		 * Loads the TreeMap project page when the link is clicked.
+		 */
+		/*
+		private function linkClickHandler(event:MouseEvent):void
+		{
+			navigateToURL(new URLRequest("http://code.google.com/p/flex2treemap/"));
+		}
+		*/
+		
+	]]></mx:Script>
+		
+	
+	<!--
+		Important Notes:
+		
+		1. Items use the labelField property to set the text that appears on the
+		item renderers. In this case, we want the label attribute from the XML.
+		
+		2. The TreeMap determines the dimensions of each item renderer using the
+		weightField property. We'll use the data attribute from the XML.
+	-->
+	
+	<toolbox:TreeMap id="treeMap" width="100%" height="100%"
+		dataProvider="{Rx.models.index(Project)}" labelField="name" colorField="statusColor" branchLabelField="groupName" >	
+		<toolbox:leafRenderer>
+			<mx:Component>
+				<view:DetailedProjectRenderer/>	
+			</mx:Component>
+        </toolbox:leafRenderer>
+	</toolbox:TreeMap>		
+		
+	<!-- just a link back to the project page -->
+		<!--
+			
+<mx:Binding source="configuration.textFontSize" destination="treeMap.fontSize"/>
+
+	<mx:LinkButton bottom="10" right="10"
+		label="powered by flextreemap" click="linkClickHandler(event)"/>
+		-->
+	
+</mx:Canvas>

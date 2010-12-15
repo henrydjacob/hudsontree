@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:toolbox="http://www.flextoolbox.com/2006/mxml"
+	width="100%" height="100%" creationComplete="init()">
+		
+	<mx:Script>
+		<![CDATA[
+
+		import com.hudsontree.models.Project;
+		import org.restfulx.Rx;
+
+        [Bindable]
+        [Embed(source="/assets/error.png")]
+        public var failure:Class;
+                
+        [Bindable]
+        [Embed(source="/assets/success.png")]
+        public var success:Class;
+		
+        [Bindable]		
+        [Embed(source="/assets/progress.gif")]
+        public var progress:Class;
+
+        [Bindable]
+        public var imageRef:Object = new Object();
+		
+		private function init():void {
+           	imageRef.failure = failure;
+           	imageRef.success = success;
+           	imageRef.progress = progress;
+		}
+				
+		]]>
+	</mx:Script>
+
+		
+	<mx:DataGrid id="dgProjects" 
+		width="100%" height="100%" dataProvider="{Rx.models.index(Project)}" >
+		<mx:columns>
+			<mx:DataGridColumn dataField="name" headerText="Project"/>
+			<mx:DataGridColumn dataField="lastBuild.buildId" headerText="Build Number"/>
+			<mx:DataGridColumn dataField="lastBuild.result" headerText="Status"/>
+			
+			<mx:DataGridColumn headerText="" dataField="callStatus" width="20" textAlign="center">
+				<mx:itemRenderer>
+					<mx:Component>
+						<mx:Image source="{outerDocument.imageRef[data.callStatus]}" verticalAlign="middle" 
+							horizontalAlign="left" scaleContent="false" 
+							maintainAspectRatio="true"
+							toolTip="{data.callMessage}"/>
+					</mx:Component>
+				</mx:itemRenderer>
+		    </mx:DataGridColumn>
+			
+		</mx:columns>
+	</mx:DataGrid>
+</mx:Canvas>

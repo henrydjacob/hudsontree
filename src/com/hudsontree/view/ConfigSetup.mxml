@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" height="100%" width="100%" label="Project"
+  xmlns:rx="org.restfulx.components.rx.*" creationComplete="init()">
+  <mx:Script><![CDATA[
+	import com.hudsontree.models.Configuration;
+    import org.restfulx.Rx;
+    import org.restfulx.utils.RxUtils;
+
+	import com.hudsontree.controllers.ProcessController;
+	
+    import mx.collections.ArrayCollection;
+
+    [Bindable]
+    public var cards:ArrayCollection = new ArrayCollection(
+        [ {label:"Visa", data:1}, 
+			{label:"MasterCard", data:2}, 
+            {label:"American Express", data:3} ]);
+	
+    [Bindable]
+    private var configuration:Configuration;
+
+	private function init():void {
+		configuration = ProcessController.instance.configuration;
+	}
+	
+    private function saveConfiguration():void {
+      updateModelProperties();
+        configuration.update();
+    }
+  
+    private function updateModelProperties():void {
+      configuration.interval = parseInt(intervalTextInput.text);
+	  configuration.textFontSize = parseInt(fontSizeTextInput.text);
+	  configuration.textFontColor = fontColorTextInput.selectedColor;
+	  configuration.successColor = successColorTextInput.selectedColor;
+	  configuration.failureColor = failureColorTextInput.selectedColor;
+	  configuration.stableColor = stableColorTextInput.selectedColor;
+	  configuration.disableColor = disableColorTextInput.selectedColor;
+      configuration.ratingMethod = ratingMethodTextInput.text;
+	  configuration.enableArduino = enableArduinoCheckBox.selected;
+	  configuration.successPin = parseInt(successPinTextInput.text);
+	  configuration.failurePin = parseInt(failurePinTextInput.text);
+	  configuration.stablePin = parseInt(stablePinTextInput.text);
+	  configuration.buzzerPin = parseInt(buzzerPinTextInput.text);
+
+    }
+    
+  ]]></mx:Script>
+
+  <mx:Panel title="Preferences" cornerRadius="0" dropShadowEnabled="false" width="100%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="Interval" width="100%">
+        <mx:TextInput id="intervalTextInput" width="100%" text="{configuration.interval}"/>
+      </mx:FormItem>
+	  <mx:HRule width="100%" />
+      <mx:FormItem label="Font Size" width="100%">
+        <mx:TextInput id="fontSizeTextInput" width="100%" text="{configuration.textFontSize}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Font Color" width="100%">
+		<mx:ColorPicker id="fontColorTextInput" showTextField="true" selectedColor="{configuration.textFontColor}" />
+      </mx:FormItem>
+      <mx:FormItem label="Success Color" width="100%">
+		<mx:ColorPicker id="successColorTextInput" showTextField="true" selectedColor="{configuration.successColor}" />
+      </mx:FormItem>
+      <mx:FormItem label="Failure Color" width="100%">
+		<mx:ColorPicker id="failureColorTextInput" showTextField="true" selectedColor="{configuration.failureColor}" />
+      </mx:FormItem>
+      <mx:FormItem label="Stable Color" width="100%">
+		<mx:ColorPicker id="stableColorTextInput" showTextField="true" selectedColor="{configuration.stableColor}" />
+      </mx:FormItem>
+      <mx:FormItem label="Disable Color" width="100%">
+		<mx:ColorPicker id="disableColorTextInput" showTextField="true" selectedColor="{configuration.disableColor}" />
+      </mx:FormItem>
+		<mx:HRule width="100%" />
+      <mx:FormItem label="Rating Method" width="100%">
+        <mx:TextInput id="ratingMethodTextInput" width="100%" text="{configuration.ratingMethod}"/>
+      </mx:FormItem>
+		<mx:HRule width="100%" />
+      <mx:FormItem label="Enable Arduino" width="100%">
+        <mx:CheckBox id="enableArduinoCheckBox" selected="{configuration.enableArduino}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Success Pin" width="100%">
+        <mx:TextInput id="successPinTextInput" width="100%" enabled="{enableArduinoCheckBox.selected}" text="{configuration.successPin}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Failure Pin" width="100%">
+        <mx:TextInput id="failurePinTextInput" width="100%" enabled="{enableArduinoCheckBox.selected}" text="{configuration.failurePin}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Stable Pin" width="100%">
+        <mx:TextInput id="stablePinTextInput" width="100%" enabled="{enableArduinoCheckBox.selected}" text="{configuration.stablePin}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Buzzer Pin" width="100%">
+        <mx:TextInput id="buzzerPinTextInput" width="100%" enabled="{enableArduinoCheckBox.selected}" text="{configuration.buzzerPin}"/>
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="90%">
+      <mx:Button label="Save" width="130" height="32"
+        click="saveConfiguration()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:view="com.hudsontree.view.*"
+	showFlexChrome="false"
+	showStatusBar="false"
+	initialize="init()">
+	
+	<mx:Style source="styles.css"/>
+		
+	<mx:Script>
+		<![CDATA[
+
+		import adobe.utils.ProductManager;
+		import mx.effects.Resize;
+		import mx.events.EffectEvent;
+		import mx.effects.easing.Circular;
+		import mx.controls.Alert;
+		
+		  import org.restfulx.services.air.AIRServiceProvider;
+		  import org.restfulx.services.http.XMLHTTPServiceProvider;
+		  import org.restfulx.Rx;
+		  import com.hudsontree.controllers.ApplicationController;
+		  import com.hudsontree.controllers.ProcessController;
+		  import com.hudsontree.models.Project;
+
+		  private var processController:ProcessController;
+		  
+		  private function init():void {
+			ApplicationController.initialize([AIRServiceProvider], 
+			  AIRServiceProvider.ID, "hudsontree");
+			processController = ProcessController.instance;
+		  }
+
+		]]>
+	</mx:Script>
+
+	<mx:HBox id="container" width="100%" height="100%">
+		<mx:ViewStack id="vs" width="100%" height="100%" creationPolicy="all">
+			<mx:Canvas width="100%" height="100%" icon="@Embed('/assets/icon_tiles.png')">
+				<view:ProjectTreeMap/>
+			</mx:Canvas>
+			<mx:Canvas width="100%" height="100%" icon="@Embed('/assets/icon_grid.png')">
+				<view:ProjectGrid/>
+			</mx:Canvas>
+			<mx:Canvas width="100%" height="100%" icon="@Embed('/assets/icon_setup.png')">
+				<view:ProjectSetup/>
+			</mx:Canvas>
+			<mx:Canvas width="100%" height="100%" icon="@Embed('/assets/icon_setup.png')">
+				<view:ConfigSetup/>
+			</mx:Canvas>
+		</mx:ViewStack>
+	</mx:HBox>
+
+	<mx:HBox width="100%" horizontalGap="4">
+		<mx:ButtonBar dataProvider="{vs}" styleName="mainButtonBar" height="36"/>
+		<mx:Spacer width="100%"/>
+	</mx:HBox>
+	
+</mx:WindowedApplication>
